@@ -1,0 +1,56 @@
+// Font Family
+
+$DMSans: "DMSans";
+$DMSans-url: url("../../assets/fonts/DMSans/DMSans-Regular.ttf") format("truetype");
+
+$DMSans-light: "DMSans-light";
+$DMSans-light-url: url("../../assets/fonts/DMSans/DMSans-Light.ttf") format("truetype");
+
+$DMSans-medium: "DMSans-medium";
+$DMSans-medium-url: url("../../assets/fonts/DMSans/DMSans-Medium.ttf") format("truetype");
+
+$DMSans-semibold: "DMSans-semibold";
+$DMSans-semibold-url: url("../../assets/fonts/DMSans/DMSans-Medium.ttf") format("truetype");
+
+$DMSans-bold: "DMSans-bold";
+$DMSans-bold-url: url("../../assets/fonts/DMSans/DMSans-Bold.ttf") format("truetype");
+
+$DMSans-black: "DMSans-black";
+$DMSans-black-url: url("../../assets/fonts/DMSans/DMSans-Black.ttf") format("truetype");
+
+@font-face {
+  font-family: $DMSans;
+  font-style: normal;
+  src: $DMSans-url;
+}
+
+@font-face {
+  font-family: $DMSans-light;
+  font-style: normal;
+  src: $DMSans-light-url;
+}
+
+@font-face {
+  font-family: $DMSans-medium;
+  font-style: normal;
+  src: $DMSans-medium-url;
+}
+
+@font-face {
+  font-family: $DMSans-semibold;
+  font-style: normal;
+  font-weight: 600;
+  src: $DMSans-semibold-url;
+}
+
+@font-face {
+  font-family: $DMSans-bold;
+  font-style: normal;
+  src: $DMSans-bold-url;
+}
+
+@font-face {
+  font-family: $DMSans-black;
+  font-style: normal;
+  src: $DMSans-black-url;
+}

@@ -1,0 +1,282 @@
+// General Style
+
+html {
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  background-color: $white;
+  font-size: 16px;
+  font-family: $DMSans;
+  line-height: 24px;
+  font-weight: 400;
+  color: $primary-black2;
+  margin: 0;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  display: inline-block;
+  text-decoration: none;
+  transition: 0.2s ease-in-out;
+  color: $white;
+}
+
+.DMSans {
+  font-family: $DMSans;
+}
+
+.DMSans-light {
+  font-family: $DMSans-light;
+}
+
+.DMSans-medium {
+  font-family: $DMSans-medium;
+}
+
+.DMSans-semibold {
+  font-family: $DMSans-semibold;
+}
+
+.DMSans-bold {
+  font-family: $DMSans-bold;
+}
+
+.DMSans-black {
+  font-family: $DMSans-black;
+}
+
+.tab-active {
+  color: $theme2;
+  text-decoration: underline;
+}
+.tab-inactive {
+  color: $theme1;
+}
+
+.btn-shadow {
+  box-shadow: 0px 5px 30px 0px #61d98b4d;
+}
+
+.title-shadow-w {
+  text-shadow: 5px 5px rgba(255, 255, 255, 1);
+}
+
+.custom-shadow {
+  box-shadow: 0px 0px 150px 0px #43f9ff80 inset;
+}
+
+.img-white {
+  filter: brightness(100) contrast(1);
+}
+
+.slick-dots {
+  li {
+    height: 10px;
+    button {
+      width: 10px;
+      height: 10px;
+      &::before {
+        font-size: 12px;
+        width: 10px;
+        height: 10px;
+        background-color: #00d893;
+        color: transparent;
+        border-radius: 10px;
+        opacity: 0.8;
+      }
+    }
+
+    &.slick-active {
+      width: 50px;
+      button {
+        width: 50px;
+        &::before {
+          color: transparent;
+          width: 50px;
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
+.slick-arrow {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: 991px) {
+    width: 40px;
+    height: 40px;
+  }
+
+  &.slick-disabled {
+    opacity: 0.6;
+  }
+
+  &::before {
+    content: "";
+    background-image: url("../images/slider-arrow.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 56px;
+    height: 56px;
+    display: block;
+    opacity: 1 !important;
+    @media (max-width: 991px) {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  &.slick-prev {
+    z-index: 1;
+    left: -50px;
+    @media (max-width: 991px) {
+      left: -15px;
+    }
+    &::before {
+      transform: scaleX(-1);
+      margin-left: -6px;
+    }
+  }
+
+  &.slick-next {
+    z-index: 1;
+    right: -50px;
+    @media (max-width: 991px) {
+      right: -15px;
+    }
+  }
+}
+
+.custom-gradient {
+  background-image: linear-gradient(-90deg, #0bf191 -20.56%, #304ac5 100%);
+}
+
+.custom-gradient-1 {
+  background-image: linear-gradient(180deg, rgba(204, 255, 239, 0.3) 0%, #ccffef 100%);
+}
+
+.faq-accordion {
+  label {
+  }
+  label::before {
+    content: "⌄";
+    position: absolute;
+    left: 15px;
+    color: #fff;
+    background-color: #184175;
+    border-radius: 8px;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    top: 10px;
+    padding-bottom: 15px;
+    font-weight: 100;
+  }
+
+  input:checked + label {
+    background-color: #fff;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    color: #2b2b5e;
+  }
+
+  input:checked + label:before {
+    content: "⌃";
+    padding-bottom: 0;
+    padding-top: 15px;
+    background-color: #009846;
+  }
+
+  .accordion__content {
+    max-height: 0em;
+    transition: all 0.4s cubic-bezier(0.865, 0.14, 0.095, 0.87);
+  }
+  input[name="panel"]:checked ~ .accordion__content {
+    /* Get this as close to what height you expect */
+    max-height: 50em;
+  }
+}
+
+.tabs {
+  .active {
+    background-color: $theme2;
+  }
+}
+
+.fag-page {
+  .faq-accordion {
+    label::before {
+      top: 20px;
+    }
+  }
+}
+
+.banner-header {
+  background: #c0c0c05b;
+  padding: 12px 20px;
+  border-radius: 10px;
+  backdrop-filter: blur(12px);
+}
+
+.container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+.custom-radio {
+  width: 20px;
+  height: 20px;
+  border: 2px solid black;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.custom-radio::after {
+  content: "\2713"; /* Checkmark sign */
+  font-size: 14px;
+  color: white;
+  display: none;
+}
+input[type="radio"] {
+  display: none;
+}
+input[type="radio"]:checked + .custom-radio {
+  background-color: black;
+}
+input[type="radio"]:checked + .custom-radio::after {
+  display: block;
+}

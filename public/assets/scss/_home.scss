@@ -1,0 +1,60 @@
+.tab-button {
+    &.active,
+    &:hover {
+        background-color: #0e243f;
+        color: $white;
+
+        img {
+            filter: contrast(0) brightness(100);
+        }
+    }
+}
+
+.tab-content {
+    &.active {
+        display: block;
+    }
+}
+
+.mobile-tab-button {
+    position: relative;
+    padding-right: 36px !important;
+
+    &::after {
+        content: "⌄";
+        position: absolute;
+        right: 18px;
+        top: 14px;
+        font-size: 40px;
+        line-height: unset;
+    }
+    &.active,
+    &:hover {
+        background-color: #0e243f;
+        color: $white;
+
+        img {
+            filter: contrast(0) brightness(100);
+        }
+    }
+}
+
+.mobile-tab-content {
+    &.active {
+        display: block;
+    }
+}
+
+.review-slider {
+    &.slick-initialized {
+        .slick-slide {
+            margin: 0 15px;
+            padding-bottom: 30px;
+            opacity: 0.4;
+
+            &.slick-current {
+                opacity: 1;
+            }
+        }
+    }
+}
