@@ -1,4 +1,58 @@
 @include('header')
+
+<style>
+    .floating-buttons {
+        position: fixed;
+        bottom: 80px; /* Adjust to place it above the footer */
+        right: 20px; /* Adjust distance from the right side */
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        gap: 10px; /* Space between buttons */
+    }
+
+    .floating-buttons a {
+        position: relative;
+        text-decoration: none;
+    }
+
+    .floating-buttons a img {
+        width: 50px; /* Adjust size */
+        height: 50px;
+        border-radius: 50%;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+        background: white;
+        padding: 5px;
+    }
+
+    .floating-buttons a img:hover {
+        transform: scale(1.1);
+    }
+
+    /* Tooltip Style */
+    .floating-buttons a::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        right: 60px; /* Position tooltip to the left */
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        white-space: nowrap;
+        font-size: 14px;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+        pointer-events: none;
+    }
+
+    .floating-buttons a:hover::after {
+        opacity: 1;
+    }
+</style>
+
 <div class="page bg-[#F9FAF9] ">
     <!-- banner section -->
     <div class="pt-[123px] bg-[url('./dist/assets/images/about-bg.png')] bg-no-repeat bg-cover py-10 relative overflow-hidden">
@@ -105,7 +159,7 @@
         </div>
     </div>
 
-    <div class="py-[100px] bg-white">
+    {{-- <div class="py-[100px] bg-white">
         <div class="container">
             <div class="flex flex-col lg:flex-row">
                 <div class="w-full lg:w-1/2">
@@ -167,6 +221,42 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
+</div>
+<div class="floating-buttons">
+    
+    <a href="/doctors-appointment" target="_blank" data-tooltip="Doctor's Appointment">
+        <img src="{{ asset('dist/assets/images/veterinary.png') }}" alt="Doctor's Appointment" />
+    </a>
+
+    <!-- Breeders Page -->
+    <a href="/breeders" target="_blank" data-tooltip="Breeders">
+        <img src="{{ asset('dist/assets/images/dogs.png') }}" alt="Breeders" />
+    </a>
+
+    <!-- Dog Walker & Trainer Page -->
+    <a href="/dog-walker-trainer" target="_blank" data-tooltip="Dog Walker & Trainer">
+        <img src="{{ asset('dist/assets/images/trainer.png') }}" alt="Dog Walker & Trainer" />
+    </a>
+
+    <!-- Hostel for Pets -->
+    <a href="/pet-hostel" target="_blank" data-tooltip="Pet Hostel">
+        <img src="{{ asset('dist/assets/images/hostel.png') }}" alt="Pet Hostel" />
+    </a>
+
+    <!-- Pet Dating Page (Tinder for Pets) -->
+    <a href="/pet-dating" target="_blank" data-tooltip="Pet Dating">
+        <img src="{{ asset('dist/assets/images/date.png') }}" alt="Pet Dating" />
+    </a>
+
+    <!-- Wellness & Grooming -->
+    <a href="/pet-wellness-grooming" target="_blank" data-tooltip="Wellness & Grooming">
+        <img src="{{ asset('dist/assets/images/dryer.png') }}" alt="Wellness & Grooming" />
+    </a>
+
+    <!-- WhatsApp -->
+    <a href="https://wa.me/+919574953131" target="_blank" data-tooltip="Whatsapp">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" />
+    </a>
 </div>
 @include('footer')

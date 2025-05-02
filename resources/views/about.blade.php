@@ -1,4 +1,58 @@
 @include('header')
+
+<style>
+    .floating-buttons {
+        position: fixed;
+        bottom: 80px; /* Adjust to place it above the footer */
+        right: 20px; /* Adjust distance from the right side */
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        gap: 10px; /* Space between buttons */
+    }
+
+    .floating-buttons a {
+        position: relative;
+        text-decoration: none;
+    }
+
+    .floating-buttons a img {
+        width: 50px; /* Adjust size */
+        height: 50px;
+        border-radius: 50%;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+        background: white;
+        padding: 5px;
+    }
+
+    .floating-buttons a img:hover {
+        transform: scale(1.1);
+    }
+
+    /* Tooltip Style */
+    .floating-buttons a::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        right: 60px; /* Position tooltip to the left */
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        white-space: nowrap;
+        font-size: 14px;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+        pointer-events: none;
+    }
+
+    .floating-buttons a:hover::after {
+        opacity: 1;
+    }
+</style>
+
 <div class="page">
     <!-- banner section -->
     <div class="pt-[123px] bg-[url('./dist/assets/images/about-bg.png')] bg-no-repeat bg-cover py-10 relative overflow-hidden">
@@ -13,7 +67,7 @@
     </div>
     <!-- banner section -->
 
-    <div class="py-[35px]">
+    {{-- <div class="py-[35px]">
         <div class="container">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-10 pb-10">
                 <div class="">
@@ -27,9 +81,9 @@
             <h2 class="heading-title text-[38px] DMSans-bold text-theme2 mb-3">{!! setting('about.question') !!}</span></h2>
             <p class="text-theme2 text-lg lg:text-2xl">{!! setting('about.answer') !!}</p>
         </div>
-    </div>
+    </div> --}}
 
-    <div class="py-[35px]">
+    {{-- <div class="py-[35px]">
         <div class="flex flex-wrap">
             <div class="w-full lg:w-3/4 py-10 pl-5 pr-5 lg:pl-[150px] lg:pr-[80px] bg-theme1">
                 <div class="bg-white rounded-lg p-6 flex flex-col lg:flex-row lg:items-center gap-5 lg:gap-10 mb-8">
@@ -82,9 +136,9 @@
                 <img src="./dist/assets/images/dog-cat.png" class="w-auto" alt="">
             </div>
         </div>
-    </div>
+    </div> --}}
 
-   <div class="bg-[#DFDFDF]">
+    {{-- <div class="bg-[#DFDFDF]">
         <div class="container">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20">
                 <div class="">
@@ -96,7 +150,6 @@
                         <h2 class="heading-title text-[38px] DMSans-bold text-theme2 mb-3">Frequently Asked <span class="text-theme1"><br />Questions ?</span></h2>
                     </div>
                     <div class="faq-accordion flex flex-col items-center justify-center">
-                        <!--  Panel 1  -->
                         @foreach($faqs as $index => $faq)
                         <div class="w-full mb-3 rounded-[10px]">
                             <input type="checkbox" name="panel" id="panel-{{$index}}" class="hidden">
@@ -108,8 +161,7 @@
                             </div>
                         </div>
                         @endforeach
-                        <!-- Panel 2 -->
-                        {{-- <div class="w-full mb-3 rounded-[10px]">
+                        <div class="w-full mb-3 rounded-[10px]">
                             <input type="checkbox" name="panel" id="panel-2" class="hidden">
                             <label for="panel-2" class="relative  bg-white block text-theme2 font-bold text-base p-[20px] pl-[70px] mb-0 cursor-pointer rounded-[10px]">
                             How does the claim process work?
@@ -117,9 +169,8 @@
                             <div class="accordion__content overflow-hidden bg-grey-lighter">
                                 <p class="!pt-0 bg-white text-[16px] rounded-b-[10px] accordion__body p-4 text-[#82828A]">Pet insurance comes in various types, including accident-only, accident and illness, and wellness plans. Each offers different coverage levels for vet bills, treatments, and routine care.</p>
                             </div>
-                        </div> --}}
-                        <!--  Panel 3  -->
-                        {{-- <div class="w-full mb-3 rounded-[10px]">
+                        </div>
+                        <div class="w-full mb-3 rounded-[10px]">
                             <input type="checkbox" name="panel" id="panel-3" class="hidden">
                             <label for="panel-3" class="relative  bg-white block text-theme2 font-bold text-base p-[20px] pl-[70px] mb-0 cursor-pointer rounded-[10px]">
                             What are the beneifts ?
@@ -127,14 +178,14 @@
                             <div class="accordion__content overflow-hidden bg-grey-lighter">
                                 <p class="!pt-0 bg-white text-[16px] rounded-b-[10px] accordion__body p-4 text-[#82828A]">Pet insurance comes in various types, including accident-only, accident and illness, and wellness plans. Each offers different coverage levels for vet bills, treatments, and routine care.</p>
                             </div>
-                        </div> --}}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
-	<div class="py-[100px] bg-white">
+	{{-- <div class="py-[100px] bg-white">
         <div class="container">
             <div class="flex flex-col lg:flex-row">
                 <div class="w-full lg:w-1/2">
@@ -196,6 +247,42 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
+</div>
+<div class="floating-buttons">
+    
+    <a href="/doctors-appointment" target="_blank" data-tooltip="Doctor's Appointment">
+        <img src="{{ asset('dist/assets/images/veterinary.png') }}" alt="Doctor's Appointment" />
+    </a>
+
+    <!-- Breeders Page -->
+    <a href="/breeders" target="_blank" data-tooltip="Breeders">
+        <img src="{{ asset('dist/assets/images/dogs.png') }}" alt="Breeders" />
+    </a>
+
+    <!-- Dog Walker & Trainer Page -->
+    <a href="/dog-walker-trainer" target="_blank" data-tooltip="Dog Walker & Trainer">
+        <img src="{{ asset('dist/assets/images/trainer.png') }}" alt="Dog Walker & Trainer" />
+    </a>
+
+    <!-- Hostel for Pets -->
+    <a href="/pet-hostel" target="_blank" data-tooltip="Pet Hostel">
+        <img src="{{ asset('dist/assets/images/hostel.png') }}" alt="Pet Hostel" />
+    </a>
+
+    <!-- Pet Dating Page (Tinder for Pets) -->
+    <a href="/pet-dating" target="_blank" data-tooltip="Pet Dating">
+        <img src="{{ asset('dist/assets/images/date.png') }}" alt="Pet Dating" />
+    </a>
+
+    <!-- Wellness & Grooming -->
+    <a href="/pet-wellness-grooming" target="_blank" data-tooltip="Wellness & Grooming">
+        <img src="{{ asset('dist/assets/images/dryer.png') }}" alt="Wellness & Grooming" />
+    </a>
+
+    <!-- WhatsApp -->
+    <a href="https://wa.me/+919574953131" target="_blank" data-tooltip="Whatsapp">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" />
+    </a>
 </div>
 @include('footer')

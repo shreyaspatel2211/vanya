@@ -33,10 +33,10 @@
                     <li><i class="fas mr-4 fa-map-marker-alt text-lg text-theme1"></i><span class="text-lg text-[#9F9F9F]">{!! setting('contact.address') !!}<span></li>
                 </ul>
                 <ul class="flex items-center gap-2">
-                    <li><a href="{!! setting('contact.facebook_link') !!}" class="border-2 w-12 h-12 flex items-center justify-center border-[2px] border-[#E6E6ED56] bg-transparent text-theme1 rounded-xl text-xl p-2"><i class="fab fa-facebook-f"></i></a></li>
-                    <li><a href="{!! setting('contact.twitter_link') !!}" class="border-2 w-12 h-12 flex items-center justify-center border-[2px] border-[#E6E6ED56] bg-transparent text-theme1 rounded-xl text-xl p-2"><i class="fab fa-twitter"></i></a></li>
-                    <li><a href="{!! setting('contact.instagram_link') !!}" class="border-2 w-12 h-12 flex items-center justify-center border-[2px] border-[#E6E6ED56] bg-transparent text-theme1 rounded-xl text-xl p-2"><i class="fab fa-instagram-square"></i></a></li>
-                    <li><a href="{!! setting('contact.youtube_link') !!}" class="border-2 w-12 h-12 flex items-center justify-center border-[2px] border-[#E6E6ED56] bg-transparent text-theme1 rounded-xl text-xl p-2"><i class="fab fa-youtube"></i></a></li>
+                    <li><a href="{!! setting('contact.facebook_link') !!}" target="_blank" class="border-2 w-12 h-12 flex items-center justify-center border-[2px] border-[#E6E6ED56] bg-transparent text-theme1 rounded-xl text-xl p-2"><i class="fab fa-facebook-f"></i></a></li>
+                    <li><a href="{!! setting('contact.twitter_link') !!}" target="_blank" class="border-2 w-12 h-12 flex items-center justify-center border-[2px] border-[#E6E6ED56] bg-transparent text-theme1 rounded-xl text-xl p-2"><i class="fab fa-twitter"></i></a></li>
+                    <li><a href="{!! setting('contact.instagram_link') !!}" target="_blank" class="border-2 w-12 h-12 flex items-center justify-center border-[2px] border-[#E6E6ED56] bg-transparent text-theme1 rounded-xl text-xl p-2"><i class="fab fa-instagram-square"></i></a></li>
+                    <li><a href="{!! setting('contact.youtube_link') !!}" target="_blank" class="border-2 w-12 h-12 flex items-center justify-center border-[2px] border-[#E6E6ED56] bg-transparent text-theme1 rounded-xl text-xl p-2"><i class="fab fa-youtube"></i></a></li>
                 </ul>
             </div>
         </div>

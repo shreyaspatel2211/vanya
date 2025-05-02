@@ -21,30 +21,41 @@ $(document).ready(function () {
         submenu.classList.toggle("hidden");
       });
     });
+  
+    $('.teams-slider').slick({
+      dots: false,
+      arrows: true,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 5,
+      slidesToScroll: 1,
+      responsive: [
+        {
+          breakpoint: 1024, // Tablet
+          settings: {
+            slidesToShow: 3,
+          },
+        },
+        {
+          breakpoint: 768, // Mobile
+          settings: {
+            slidesToShow: 1,
+            centerPadding: "0",
+          },
+        },
+      ],
+    });
 
-  jQuery(".teams-slider").slick({
-    dots: false,
-    arrows: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    responsive: [
-      {
-        breakpoint: 1024, // Tablet
-        settings: {
-          slidesToShow: 3,
-        },
-      },
-      {
-        breakpoint: 768, // Mobile
-        settings: {
-          slidesToShow: 1,
-          centerPadding: "0",
-        },
-      },
-    ],
-  });
+    $('.tab').click(function() {
+      $('.tab').removeClass('active');
+      $(this).addClass('active');
+      $('.tab-content').removeClass('active').hide();
+
+      let targetTab = $('#' + $(this).data('tab'));
+      targetTab.addClass('active').fadeIn(300, function() {
+          targetTab.find('.teams-slider').slick('setPosition'); // Recalculate slider width
+      });
+    });
 
   jQuery(".testimonial-slider").slick({
     dots: true,

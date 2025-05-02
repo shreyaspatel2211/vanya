@@ -9,6 +9,7 @@ use App\Models\Feature;
 use App\Models\Review; 
 use App\Models\Faq;
 use App\Models\Plan;
+use App\Models\Breed;
 
 class IndexController extends Controller
 {
@@ -20,6 +21,8 @@ class IndexController extends Controller
         $reviews = Review::all();
         $faqs = Faq::all();
         $plans = Plan::all();
-        return view('index', compact('services', 'covers', 'features', 'reviews', 'faqs', 'plans')); // Pass services to the view
+        $dogs = Breed::where('breed_type', 'dog')->get();
+        $cats = Breed::where('breed_type', 'cat')->get();
+        return view('index', compact('services', 'covers', 'features', 'reviews', 'faqs', 'plans', 'dogs', 'cats')); // Pass services to the view
     }
 }
