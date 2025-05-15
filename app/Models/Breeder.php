@@ -11,7 +11,7 @@ class Breeder extends Model
 
     protected $fillable = [
         'breed_id', 'parent_name', 'phone_number', 'email', 'images',
-        'description', 'dob', 'pet_name', 'address', 'city', 'category_id'
+        'description', 'dob', 'pet_name', 'address', 'city', 'category_id', 'user_id'
     ];
     
     public function breeds()

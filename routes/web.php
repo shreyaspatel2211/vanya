@@ -8,7 +8,12 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\GetQuoteController;
-
+use App\Http\Controllers\Voyager\DoctorAppointmentController;
+use App\Http\Controllers\Voyager\BreederAppointmentController;
+use App\Http\Controllers\Voyager\WalkerAndTrainerBookingController;
+use App\Http\Controllers\Voyager\WellnessAndGroomingBookingController;
+use App\Http\Controllers\PremiumController;
+use App\Http\Controllers\Api\ChatController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -45,6 +50,15 @@ Route::get('/plan', [PlanController::class, 'index']);
 
 Route::get('/service/{id}', [ServiceController::class, 'show'])->name('service.detail');
 Route::get('/get_breed', [GetQuoteController::class, 'getBreed'])->name('get.breed');
+
+Route::post('/admin/reschedule-appointment-doctor/{id}', [DoctorAppointmentController::class, 'reschedule']);
+Route::post('/admin/reschedule-appointment-breeder/{id}', [BreederAppointmentController::class, 'reschedule']);
+Route::post('/admin/reschedule-appointment-walker/{id}', [WalkerAndTrainerBookingController::class, 'reschedule']);
+Route::post('/admin/reschedule-appointment-wellness/{id}', [WellnessAndGroomingBookingController::class, 'reschedule']);
+
+Route::get('/calculate-premium', [PremiumController::class, 'calculatePremium']);
+
+Route::get('/admin/chat/{user1}/{user2}', [ChatController::class, 'show'])->name('admin.chat.show');
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();

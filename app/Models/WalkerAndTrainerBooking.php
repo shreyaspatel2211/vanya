@@ -11,6 +11,6 @@ class WalkerAndTrainerBooking extends Model
 
     protected $fillable = [
         'walker_and_trainer_id', 'walker_and_trainer_plan_id', 'pet_name', 'parent_name',
-        'phone_number', 'email', 'gender', 'category_id', 'breed_id', 'address'
+        'phone_number', 'email', 'gender', 'category_id', 'breed_id', 'address', 'booking_date', 'booking_time'
     ];
 }

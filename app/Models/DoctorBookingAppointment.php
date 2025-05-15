@@ -11,6 +11,6 @@ class DoctorBookingAppointment extends Model
 
     protected $fillable = [
         'breed_id', 'parent_name', 'phone_number', 'email', 'gender',
-        'dob', 'pet_name', 'category_id', 'doctor_id', 'user_id'
+        'dob', 'pet_name', 'category_id', 'doctor_id', 'user_id', 'booking_date', 'booking_time'
     ];
 }

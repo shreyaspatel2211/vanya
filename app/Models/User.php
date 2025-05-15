@@ -23,7 +23,8 @@ class User extends \TCG\Voyager\Models\User implements JWTSubject
         'email',
         'password',
         'phone_number',
-        'device_token'
+        'device_token',
+        'role_id'
     ];
 
     public function getJWTIdentifier()

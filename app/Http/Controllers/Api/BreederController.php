@@ -8,6 +8,8 @@ use App\Models\Breeder;
 use Illuminate\Support\Facades\Validator;
 use App\Models\BreederAppointment;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 class BreederController extends Controller
 {
@@ -28,7 +30,7 @@ class BreederController extends Controller
             'breed_id' => 'required|integer',
             'parent_name' => 'required|string',
             'phone_number' => 'required|string',
-            'email' => 'nullable|email',
+            'email' => 'required|email|unique:users,email',
             'images' => 'nullable|array',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'description' => 'nullable|string',
@@ -37,6 +39,7 @@ class BreederController extends Controller
             'address' => 'required|string',
             'city' => 'required|string',
             'category_id' => 'required|integer',
+            'password' => 'required|min:6'
         ]);
 
         if ($validator->fails()) {
@@ -47,10 +50,18 @@ class BreederController extends Controller
         $imagePaths = [];
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
-                $path = $image->store('breeder_images', 'public');
+                $path = $image->store('pet_breeder', 'public');
                 $imagePaths[] = $path;
             }
         }
+
+        $user = User::create([
+            'name' => $request->parent_name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role_id' => 4, 
+            'phone_number' => $request->phone_number,
+        ]);
 
         $breeder = Breeder::create([
             'breed_id' => $request->breed_id,
@@ -64,14 +75,33 @@ class BreederController extends Controller
             'address' => $request->address,
             'city' => $request->city,
             'category_id' => $request->category_id,
+            'user_id' => $user->id
         ]);
 
-        return response()->json(['message' => 'Breeder created successfully', 'data' => $breeder], 201);
+        return response()->json(['message' => 'Breeder created successfully', 'data' => $breeder, 'user' => $user], 201);
     }
 
     public function BookBreederAppointment(Request $request)
     {
-        $user = JWTAuth::parseToken()->authenticate();
+        $token = $request->header('Authorization');
+
+        if (!$token) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Token not provided'
+            ], 401);
+        }
+
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+        } catch (TokenExpiredException $e) {
+            return response()->json(['status' => 'error', 'message' => 'Token has expired'], 401);
+        } catch (TokenInvalidException $e) {
+            return response()->json(['status' => 'error', 'message' => 'Token is invalid'], 401);
+        } catch (JWTException $e) {
+            return response()->json(['status' => 'error', 'message' => 'Token error'], 401);
+        }
+
 
         if (!$user) {
             return response()->json(['error' => 'User not authenticated'], 401);
@@ -87,6 +117,8 @@ class BreederController extends Controller
             'category_id' => 'required|integer',
             'dob' => 'required|date',
             'gender' => 'required|string',
+            'booking_date' => 'required',
+            'booking_time' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -104,6 +136,8 @@ class BreederController extends Controller
             'category_id' => $request->category_id,
             'gender' => $request->gender,
             'user_id' => $user->id,
+            'booking_date' => $request->booking_date,
+            'booking_time' => $request->booking_time
         ]);
 
         return response()->json(['message' => 'Breeder created successfully', 'data' => $breeder], 201);

@@ -9,6 +9,8 @@ use App\Models\WalkerTrainerPlan;
 use App\Models\WalkerAndTrainerBooking;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class WalkerAndTrainerController extends Controller
 {
@@ -57,7 +59,8 @@ class WalkerAndTrainerController extends Controller
             'address' => 'required|string',
             'city' => 'required',
             'phone_number' => 'required',
-            'email' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6',
         ]);
 
         if ($validator->fails()) {
@@ -68,10 +71,18 @@ class WalkerAndTrainerController extends Controller
         $imagePaths = [];
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
-                $path = $image->store('doctor_images', 'public');
+                $path = $image->store('walker_and_trainer', 'public');
                 $imagePaths[] = $path;
             }
         }
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role_id' => 7, 
+            'phone_number' => $request->phone_number,
+        ]);
 
         $WalkerAndTrainer = WalkerAndTrainer::create([
             'name' => $request->name,
@@ -82,14 +93,33 @@ class WalkerAndTrainerController extends Controller
             'images' => json_encode($imagePaths), // store as JSON
             'city' => $request->city,
             'address' => $request->address,
+            'user_id' => $user->id,
         ]);
 
-        return response()->json(['status' => 'success', 'message' => 'Walker AndT rainer created successfully', 'data' => $WalkerAndTrainer], 201);
+        return response()->json(['status' => 'success', 'message' => 'Walker And Trainer created successfully', 'data' => $WalkerAndTrainer, 'user' => $user], 201);
     }
 
     public function BookWalkerAndTrainer(Request $request)
     {
-        $user = JWTAuth::parseToken()->authenticate();
+
+        $token = $request->header('Authorization');
+
+        if (!$token) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Token not provided'
+            ], 401);
+        }
+
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+        } catch (TokenExpiredException $e) {
+            return response()->json(['status' => 'error', 'message' => 'Token has expired'], 401);
+        } catch (TokenInvalidException $e) {
+            return response()->json(['status' => 'error', 'message' => 'Token is invalid'], 401);
+        } catch (JWTException $e) {
+            return response()->json(['status' => 'error', 'message' => 'Token error'], 401);
+        }
 
         if (!$user) {
             return response()->json(['error' => 'User not authenticated'], 401);
@@ -123,7 +153,9 @@ class WalkerAndTrainerController extends Controller
             'category_id' => $request->category_id,
             'gender' => $request->gender,
             'user_id' => $user->id,
-            'walker_and_trainer_id' => $request->walker_and_trainer_id
+            'walker_and_trainer_id' => $request->walker_and_trainer_id,
+            'booking_date' => $request->booking_date,
+            'booking_time' => $request->booking_time
         ]);
 
         return response()->json(['status' => 'success', 'message' => 'Walker And Trainer Booking created successfully', 'data' => $WalkerAndTrainerBooking], 201);

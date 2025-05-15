@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\GetAQuoteController;
 use App\Http\Controllers\Api\FaqController;
@@ -20,6 +19,9 @@ use App\Http\Controllers\Api\PetDateController;
 use App\Http\Controllers\Api\PetHostelController;
 use App\Http\Controllers\Api\WalkerAndTrainerController;
 use App\Http\Controllers\Api\WellnessAndGroomingController;
+use App\Http\Controllers\Api\ChatController;
+use App\Http\Controllers\Api\AuthController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -76,7 +78,24 @@ Route::get('/get-hostel-plans/{hostel_id}', [PetHostelController::class, 'GetHos
 Route::post('/add-walker-and-trainer', [WalkerAndTrainerController::class, 'WalkerAndTrainerStore']);
 Route::post('/book-walker-and-trainer', [WalkerAndTrainerController::class, 'BookWalkerAndTrainer']);
 Route::post('/add-walker-and-trainer-plans', [WalkerAndTrainerController::class, 'WalkerAndTrainerPlanStore']);
-Route::get('/get-walker-and-trainer-plans/{hostel_id}', [WalkerAndTrainerController::class, 'GetWalkerAndTrainerPlan']);
+Route::get('/get-walker-and-trainer-plans/{walker_and_trainer_id}', [WalkerAndTrainerController::class, 'GetWalkerAndTrainerPlan']);
+
+Route::post('/add-wellness-and-grooming', [WellnessAndGroomingController::class, 'WellnessAndGroomingStore']);
+Route::post('/book-wellness-and-grooming', [WellnessAndGroomingController::class, 'BookWellnessAndGrooming']);
+Route::post('/add-wellness-and-grooming-plans', [WellnessAndGroomingController::class, 'WellnessAndGroomingPlanStore']);
+Route::get('/get-wellness-and-grooming-plans/{wellness_and_grooming_id}', [WellnessAndGroomingController::class, 'GetWellnessAndGroomingPlan']);
+
+Route::post('/add-pet-for-date', [PetDateController::class, 'addPetForDate']);
+Route::post('/pet-match', [PetDateController::class, 'petMatch']);
+
+Route::post('/send-message', [ChatController::class, 'send']);
+Route::get('/messages/{sender_id}/{receiver_id}', [ChatController::class, 'getMessages']);
+
+
+Route::post('/chat/send', [ChatController::class, 'sendMessage']);
+Route::get('/chat/history', [ChatController::class, 'getChatHistory']);
+
+Route::get('/check-pet-like-status', [PetDateController::class, 'checkLikeStatus']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

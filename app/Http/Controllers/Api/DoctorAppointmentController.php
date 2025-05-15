@@ -9,6 +9,8 @@ use App\Models\Doctor;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Models\DoctorBookingAppointment;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 class DoctorAppointmentController extends Controller
 {
@@ -37,6 +39,8 @@ class DoctorAppointmentController extends Controller
             'city' => 'required|string',
             'qualification' => 'required',
             'address' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6'
         ]);
 
         if ($validator->fails()) {
@@ -47,10 +51,18 @@ class DoctorAppointmentController extends Controller
         $imagePaths = [];
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
-                $path = $image->store('doctor_images', 'public');
+                $path = $image->store('pet_doctor', 'public');
                 $imagePaths[] = $path;
             }
         }
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role_id' => 3, 
+            'phone_number' => $request->phone_number,
+        ]);
 
         $doctor = Doctor::create([
             'doctor_category_id' => $request->doctor_category_id,
@@ -63,14 +75,33 @@ class DoctorAppointmentController extends Controller
             'description' => $request->description,
             'city' => $request->city,
             'address' => $request->address,
+            'user_id' => $user->id
         ]);
 
-        return response()->json(['message' => 'Doctor created successfully', 'data' => $doctor], 201);
+        return response()->json(['message' => 'Doctor created successfully', 'data' => $doctor, 'user' => $user], 201);
     }
 
     public function BookDoctorAppointment(Request $request)
     {
-        $user = JWTAuth::parseToken()->authenticate();
+        $token = $request->header('Authorization');
+
+        if (!$token) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Token not provided'
+            ], 401);
+        }
+
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+        } catch (TokenExpiredException $e) {
+            return response()->json(['status' => 'error', 'message' => 'Token has expired'], 401);
+        } catch (TokenInvalidException $e) {
+            return response()->json(['status' => 'error', 'message' => 'Token is invalid'], 401);
+        } catch (JWTException $e) {
+            return response()->json(['status' => 'error', 'message' => 'Token error'], 401);
+        }
+
 
         if (!$user) {
             return response()->json(['error' => 'User not authenticated'], 401);
@@ -86,6 +117,8 @@ class DoctorAppointmentController extends Controller
             'category_id' => 'required|integer',
             'dob' => 'required|date',
             'gender' => 'required|string',
+            'booking_date' => 'required',
+            'booking_time' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -103,6 +136,8 @@ class DoctorAppointmentController extends Controller
             'category_id' => $request->category_id,
             'gender' => $request->gender,
             'user_id' => $user->id,
+            'booking_date' => $request->booking_date,
+            'booking_time' => $request->booking_time
         ]);
 
         return response()->json(['message' => 'Breeder created successfully', 'data' => $breeder], 201);

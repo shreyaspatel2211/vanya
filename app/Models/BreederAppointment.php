@@ -10,7 +10,7 @@ class BreederAppointment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'breed_id', 'parent_name', 'phone_number', 'email', 'gender',
+        'breed_id', 'parent_name', 'phone_number', 'email', 'gender', 'booking_date', 'booking_time',
         'dob', 'pet_name', 'category_id', 'breeder_id', 'user_id'
     ];
 }

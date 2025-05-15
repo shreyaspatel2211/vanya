@@ -11,6 +11,6 @@ class PetHostel extends Model
 
     protected $fillable = [
         'name', 'description', 'pick_up_time', 'drop_time', 'phone_number',
-        'email', 'city', 'address', 'images'
+        'email', 'city', 'address', 'images', 'user_id'
     ];
 }

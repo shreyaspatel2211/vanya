@@ -9,6 +9,11 @@ class PetDate extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'breed_id', 'parent_name', 'phone_number', 'email', 'gender',
+        'dob', 'pet_name', 'category_id', 'images', 'user_id'
+    ];
+
     public function breeds()
     {
         return $this->belongsTo(Breed::class, 'breed_id');
