@@ -4,6 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use App\Models\Service; 
+use App\Models\InsuranceCover; 
+use App\Models\Feature; 
+use App\Models\Review; 
+use App\Models\Faq;
+use App\Models\Contact;
+use Carbon\Carbon;
 
 class PremiumController extends Controller
 {
@@ -13,8 +20,9 @@ class PremiumController extends Controller
     private $getTokenUrl = 'https://extuat.bajajallianz.com/BjazPetIntNew/getToken';
     private $premiumUrl = 'https://extuat.bajajallianz.com/BjazPetIntNew/calculatePremiumNew';
 
-    public function calculatePremium()
+    public function calculatePremium(Request $request)
     {
+        // dd($request);
         // Step 1: Get Bearer Token using fixed BagicToken
         $tokenResponse = Http::withHeaders([
             'BagicToken' => $this->fixedBagicToken
@@ -30,6 +38,20 @@ class PremiumController extends Controller
             return response()->json(['error' => 'Bearer token not found in response'], 500);
         }
 
+        $formatted = $request->all();
+        $dateKeys = [
+            'term_start_date',
+            'term_end_date',
+            'date_of_birth',
+            // Add more date keys if needed
+        ];
+
+        foreach ($dateKeys as $key) {
+            if (!empty($formatted[$key])) {
+                $formatted[$key] = Carbon::parse($formatted[$key])->format('d-M-Y');
+            }
+        }
+
         // Step 2: Prepare payload
         $payload = [
             "user_id" => "bajajallianzsme@policybazaar.com",
@@ -39,20 +61,20 @@ class PremiumController extends Controller
                 "scrutiny_no"=> "0",
                 "business_type"=> "NB",
                 "policy_period"=> "1200",
-                "term_start_date"=> "29-sep-2023",
+                "term_start_date"=> $formatted['term_start_date'],
                 "term_start_time"=> "00:00",
-                "term_end_date"=> "28-sep-2024",
+                "term_end_date"=> $formatted['term_end_date'],
                 "partner_type"=> "P",
                 "trans_time"=> "00:21:46"
             ],
             "cp_obj" => [
                 "partner_type"=> "P",
-                "contact1"=> "9999999999",
-                "date_of_birth"=> "21-May-1989",
-                "sex"=> "M",
-                "email"=> "test@gmail.com",
-                "first_name"=> "JAMES",
-                "surname"=> "BOND",
+                "contact1"=> $request->contact1,
+                "date_of_birth"=> $formatted['date_of_birth'],
+                "sex"=> $request->sex,
+                "email"=> $request->email,
+                "first_name"=> $request->first_name,
+                "surname"=> $request->surname,
                 "institution_name"=> "",
                 "middle_name"=> "",
                 "telephone3"=> "",
@@ -60,40 +82,40 @@ class PremiumController extends Controller
             ],
             "address_lst" => [
                 [
-                    "postcode"=> "411027",
+                    "postcode"=> $request->postcode,
                     "country_code"=> "",
-                    "address_line1"=> "FN02Firoz",
-                    "address_line2"=> "parkpavana",
-                    "address_line3"=> "Pune",
+                    "address_line1"=> $request->address_line1,
+                    "address_line2"=> $request->address_line2,
+                    "address_line3"=> $request->address_line3,
                     "address_line4"=> "",
                     "address_line5"=> "",
-                    "state"=> "MAHARASHTRA"
+                    "state"=> $request->state
                 ]
             ],
             "pet_pol_dtls_new" => [
                 "PET_ID"=> "",
-                "pet_type"=> "dog",
-                "pet_name"=> "Buddy",
-                "sex"=> "M",
-                "breed"=> "American Bully",
+                "pet_type"=> $request->pet_type,
+                "pet_name"=> $request->pet_name,
+                "sex"=> $request->petsex,
+                "breed"=> $request->breed,
                 "breed_others"=> "",
                 "category"=> "medium",
-                "age_in_year"=> "3",
-                "age_in_month"=> "0",
+                "age_in_year"=> $request->age_in_year,
+                "age_in_month"=> $request->age_in_month,
                 "Commercial"=> "no",
                 "pet_prerequisite"=> "Healthy",
 
                 "is_pedigree_lineage"=> "No",
                 "registration_dtls"=> "Registered",
-                "dog_house"=> "Yes",
-                "weight"=> "25",
+                "dog_house"=> $request->dog_house,
+                "weight"=> $request->weight,
                 "microchip_no"=> "",
                 "is_doc_uploaded_yn"=> "Yes",
                 "pet_features"=> "Playful and friendly",
-                "is_pet_healthy"=> "Yes",
+                "is_pet_healthy"=> $request->is_pet_healthy,
                 "health_dtls"=> "None",
                 "other_defects"=> "None",
-                "is_pet_vacinated"=> "yes",
+                "is_pet_vacinated"=> $request->is_pet_vacinated,
                 "vaccination_dtls"=> "Up-to-date",
 
                 "past_diseases"=> "None",
@@ -286,11 +308,24 @@ class PremiumController extends Controller
             'Content-Type' => 'application/json',
             'Accept' => 'application/json'
         ])->post($this->premiumUrl, $payload);
-        dd($response->json());
+        
         if (!$response->ok()) {
             return response()->json(['error' => 'Failed to calculate premium', 'details' => $response->body()], 500);
         }
 
-        return response()->json($response->json());
+        $data = $response->json();
+        return back()->with('premiumDetails', $data['premiumDetails']);
+
+        // return response()->json($response->json());
+    }
+
+    public function index()
+    {
+        $services = Service::all(); // Fetch all services from the database
+        $covers = InsuranceCover::all();
+        $features = Feature::all();
+        $reviews = Review::all();
+        $faqs = Faq::all();
+        return view('calculate_premium', compact('services', 'covers', 'features', 'reviews', 'faqs')); // Pass services to the view
     }
 }

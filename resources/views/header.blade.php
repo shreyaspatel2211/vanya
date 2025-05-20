@@ -88,6 +88,7 @@
                 <!-- Other Menu Items -->
                 <a href="/submit_claim" class="text-[#262121] DMSans-medium text-sm ">Submit a claim</a>
                 <a href="/contact" class="text-[#262121] DMSans-medium text-sm ">Contact</a>
+                <a href="/calculate-your-premium" class="text-[#262121] DMSans-medium text-sm ">Calculate Premium</a>
             </nav>
 
             <div class="w-1/4 hidden lg:flex justify-end">
@@ -148,6 +149,7 @@
                 <a href="" class="text-[#0A2540] DMSans-medium text-sm ">Showcase </a>
                 <a href="/submit_claim" class="text-[#0A2540] DMSans-medium text-sm ">Submit a claim</a>
                 <a href="/contact" class="text-[#0A2540] DMSans-medium text-sm ">Contact</a>
+                <a href="/calculate-your-premium" class="text-[#0A2540] DMSans-medium text-sm ">Calculate Premium</a>
                 <a href="/get_quote" class="text-[#0A2540] DMSans-medium text-sm ">Get a Quote</a>
             </nav>
         </div>

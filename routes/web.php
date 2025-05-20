@@ -29,6 +29,9 @@ Route::get('/', [IndexController::class, 'index']);
 
 Route::get('/contact', [ContactController::class, 'index']);
 
+Route::get('/calculate-your-premium', [PremiumController::class, 'index']);
+Route::post('/calculate-premium', [PremiumController::class, 'calculatePremium'])->name('calculate.submit');
+
 Route::post('/contact-submit', [ContactController::class, 'submit'])->name('contact.submit');
 
 Route::get('/about', [AboutController::class, 'index']);
