@@ -314,6 +314,7 @@ class PremiumController extends Controller
         }
 
         $data = $response->json();
+        dd($data);
         return back()->with('premiumDetails', $data['premiumDetails']);
 
         // return response()->json($response->json());
@@ -326,6 +327,6 @@ class PremiumController extends Controller
         $features = Feature::all();
         $reviews = Review::all();
         $faqs = Faq::all();
-        return view('calculate_premium', compact('services', 'covers', 'features', 'reviews', 'faqs')); // Pass services to the view
+        return view('calculate_premium_new', compact('services', 'covers', 'features', 'reviews', 'faqs')); // Pass services to the view
     }
 }
